@@ -18,6 +18,10 @@ export default function Admin() {
     router.replace("/")
   }
 
+  const goTo = (path) => {
+    router.push(path)
+  }
+
   return (
     <Box>
       <AppBar position={"sticky"}>
@@ -45,14 +49,14 @@ export default function Admin() {
             <ListItemIcon>
               <PersonAdd />
             </ListItemIcon>
-            <ListItemText>Add Student Account</ListItemText>
+            <ListItemText onClick={() => goTo("/admin/create_student")}>Add Student Account</ListItemText>
           </ListItemButton>
 
           <ListItemButton>
             <ListItemIcon>
               <PersonAdd />
             </ListItemIcon>
-            <ListItemText>Add Instructor Account</ListItemText>
+            <ListItemText onClick={() => goTo("/admin/create_instructor")}>Add Instructor Account</ListItemText>
           </ListItemButton>
         </List>
       </Box>

@@ -1,6 +1,6 @@
 // @ts-check
 import { AppBar, Toolbar, Typography, Box, Button, Paper, TextField } from "@mui/material"
-import { getAuth } from "firebase/auth"
+import { getAuth, getIdTokenResult } from "firebase/auth"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth"
@@ -24,7 +24,11 @@ export default function Home() {
   }, [error]);
 
   if (user) {
-    router.replace("/admin");
+    getIdTokenResult(user.user).then((result) => {
+      if (result.claims.role === "student") router.replace("/student")
+      else if (result.claims.role === "instructor") router.replace("/instructor")
+      else router.replace("/admin")
+    })
   }
 
   return (
@@ -37,7 +41,7 @@ export default function Home() {
         </Toolbar>
       </AppBar>
       <Box paddingTop={10}>
-        <Paper elevation={3} variant={"outlined"} style={{ padding: 20, textAlign: "center" }}>
+        <Paper variant={"outlined"} style={{ padding: 20, textAlign: "center" }}>
           <Typography variant="h3" paddingBottom={4}>
             Login
           </Typography>
