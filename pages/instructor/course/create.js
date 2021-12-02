@@ -15,12 +15,16 @@ export default function CreateCourse() {
   const [user] = useAuthState(auth)
   
   const [courseName, setCourseName] = useState("")
+  const [courseCode, setCourseCode] = useState("")
+  const [courseCapacity, setCourseCapacity] = useState(0)
   const [dept, setDept] = useState("")
   const [courseLen, setCourseLen] = useState("fall")
 
   const onCreateCourse = async () => {
     const course = {
       name: courseName,
+      code: courseCode,
+      capacity: courseCapacity,
       dept: dept,
       length: courseLen,
       instructorUid: user.uid,
@@ -43,8 +47,10 @@ export default function CreateCourse() {
     >
       <Typography variant="h4">Create Course</Typography>
       <Box>
-        <TextField label="Course Name" value={courseName} onChange={(e) => setCourseName(e.target.value)}/>
+        <TextField label="Course Name" value={courseName} onChange={(e) => setCourseName(e.target.value)} />
+        <TextField label="Course Code" value={courseCode} onChange={(e) => setCourseCode(e.target.value)} />
         <TextField label="Department" value={dept} onChange={(e) => setDept(e.target.value) } />
+        <TextField type={"number"} label="Course Capacity" value={courseCapacity} onChange={(e) => setCourseCapacity(parseInt(e.target.value))} />
 
         <br />
         <br />

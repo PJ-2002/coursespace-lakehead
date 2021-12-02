@@ -1,11 +1,9 @@
 // @ts-check
-import React from "react"
-
 import { getAuth, signOut } from "firebase/auth"
 import { useRouter } from "next/router"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { AppBar, IconButton, Box, Button, Toolbar, Typography, List, ListSubheader, ListItem, ListItemText, ListItemButton, ListItemIcon } from "@mui/material"
-import { Menu, PersonAdd } from "@mui/icons-material"
+import { AppBar, Box, Button, Toolbar, Typography, List, ListSubheader, ListItemText, ListItemButton, ListItemIcon } from "@mui/material"
+import { PersonAdd } from "@mui/icons-material"
 
 export default function Admin() {
   const auth = getAuth()
