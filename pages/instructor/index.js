@@ -1,8 +1,25 @@
 //@ts-check
-import { getAuth, signOut } from "@firebase/auth"
-import { Button, Box, AppBar, Toolbar, Typography } from "@mui/material"
+import { getAuth } from "@firebase/auth"
+import { List, ListSubheader, ListItemIcon, ListItemButton, ListItemText } from "@mui/material"
+import Page from "components/Page"
+import { Bookmark, BookmarkAdd } from "@mui/icons-material"
 import { useRouter } from "next/router"
 import { useAuthState } from "react-firebase-hooks/auth"
+
+const ListEntry = ({ icon, to, text }) => {
+  const router = useRouter()
+
+  return (
+    <ListItemButton>
+      <ListItemIcon>
+        { icon }
+      </ListItemIcon>
+      <ListItemText onClick={() => router.push(to)}>
+        { text }
+      </ListItemText>
+    </ListItemButton>
+  )
+}
 
 export default function InstructorPage() {
   const auth = getAuth()
@@ -10,21 +27,33 @@ export default function InstructorPage() {
   const [user] = useAuthState(auth)
   const router = useRouter()
 
-  const onLogoutClick = () => {
-    signOut(auth)
-    router.push("/")
+  const goTo = (/** @type {string} */ path) => {
+    router.push(path)
   }
 
   return (
-    <Box>
-      <AppBar position={"sticky"}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Instructor - {user?.displayName ?? user?.email}
-          </Typography>
-          <Button color="inherit" onClick={onLogoutClick}>Logout</Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <Page title="Instructor">
+      <List
+        subheader={
+          <ListSubheader style={{ fontSize: 20 }}>
+            Actions
+          </ListSubheader>
+        }
+      >
+        <ListSubheader>
+          Courses
+        </ListSubheader>
+
+        <ListItemButton>
+          <ListItemIcon>
+            <BookmarkAdd />
+          </ListItemIcon>
+          <ListItemText onClick={() => goTo("/instructor/course/create")}>
+            Create Course
+          </ListItemText>
+        </ListItemButton>
+
+      </List>
+    </Page>
   )
 }

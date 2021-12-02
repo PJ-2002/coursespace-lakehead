@@ -2,7 +2,24 @@
 import { getAuth, signOut } from "firebase/auth"
 import { useRouter } from "next/router"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { Button, Box, AppBar, Toolbar, Typography, List, ListSubheader, ListItem} from "@mui/material"
+import { Button, Box, AppBar, Toolbar, Typography, List, ListSubheader, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material"
+import Page from "components/Page"
+import { BookmarkAdd } from "@mui/icons-material"
+
+const ListEntry = ({ icon, to, text }) => {
+  const router = useRouter()
+
+  return (
+    <ListItemButton>
+      <ListItemIcon>
+        { icon }
+      </ListItemIcon>
+      <ListItemText onClick={() => router.push(to)}>
+        { text }
+      </ListItemText>
+    </ListItemButton>
+  )
+}
 
 export default function StudentPage() {
   const auth = getAuth()
@@ -22,29 +39,20 @@ export default function StudentPage() {
   console.log(user)
 
   return (
-    <Box>
-      <AppBar position={"sticky"}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Student - {user?.displayName ?? user?.email}
-          </Typography>
-          <Button color="inherit" onClick={onLogoutClick}>Logout</Button>
-        </Toolbar>
-      </AppBar>
-
-      <Box>
-        <List
-          subheader={
-            <ListSubheader style={{fontSize: 20 }}>
-              Actions
-            </ListSubheader>
-          }
-        >
-          <ListSubheader>
-            Accounts
+    <Page title="Student">
+      <List
+        subheader={
+          <ListSubheader style={{fontSize: 20 }}>
+            Actions
           </ListSubheader>
-        </List>
-      </Box>
-    </Box>
+        }
+      >
+        <ListSubheader>
+          Courses 
+        </ListSubheader>
+        
+        <ListEntry icon={<BookmarkAdd />} to="/student/course/enroll" text="Enroll on courses" />
+      </List>
+    </Page>
   )
 }
