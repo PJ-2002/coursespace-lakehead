@@ -3,6 +3,7 @@ import { getAuth } from "@firebase/auth";
 import { addDoc, collection, doc, getFirestore, query, where } from "@firebase/firestore";
 import { Box, Button, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import Page from "components/Page";
+import moment from "moment";
 import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData, useCollectionDataOnce } from "react-firebase-hooks/firestore";
@@ -66,6 +67,7 @@ const Course = ({
 const CourseList = ({
   firestore,
   courses,
+  duedates,
   /** @type {number} */ enrolledCount,
   /** @type {string} **/ title,
   /** @type {boolean} **/ loading,
@@ -87,6 +89,7 @@ const CourseList = ({
       <Box>
         <h1>{title}</h1>
         <h4>Enrolled in {enrolledCount} / {MAX_ENROLLED_COUNT} courses</h4>
+        <h4>Registration closes on {moment(duedates.register.toDate()).format("MM/DD/YYYY")}</h4>
         <List>
           {courses.map((
             /** @type {{ id: string, name: string, dept: string, code: string, instructorName: string }} */
@@ -95,7 +98,7 @@ const CourseList = ({
             <Course 
               key={course.id}
               firestore={firestore}
-              alreadyEnrolled={enrollments.find((enrollment) => enrollment.courseId === course.id)}
+              alreadyEnrolled={!!enrollments.find((enrollment) => enrollment.courseId === course.id)}
               course={course}
               onEnrollClick={onEnrollClick}
             />
@@ -112,19 +115,6 @@ export default function CourseEnrollPage() {
   const [user] = useAuthState(auth)
   const router = useRouter()
 
-  const onEnrollClick = async (/** @type {{ id: string; name: String; length: string; }} */ course) => {
-    await addDoc(
-      collection(firestore, "enrollments"), 
-      {
-        studentUid: user.uid,
-        courseId: course.id,
-        courseLen: course.length,
-      }
-    )
-
-    alert(`Enrolled to ${course.name}!!`)
-  }
-
   const [fallCourse, fallLoading] = useCourseList(firestore, "fall")
   const [winterCourse, winterLoading] = useCourseList(firestore, "winter")
   const [springCourse, springLoading] = useCourseList(firestore, "spring")
@@ -134,7 +124,7 @@ export default function CourseEnrollPage() {
   const [enrolled, enrolledLoading] = useCollectionData(
     query(
       collection(firestore, "enrollments"),
-      where("studentUid", "==", user.uid)
+      where("studentUid", "==", auth.currentUser.uid)
     ), {
       idField: "id"
     }
@@ -146,6 +136,33 @@ export default function CourseEnrollPage() {
   const summerEnrolledCount = enrolled?.filter((enrollment) => enrollment.courseLen === "summer").length ?? 0
   const yearEnrolledCount = enrolled?.filter((enrollment) => enrollment.courseLen === "year-long").length ?? 0
 
+  const [duedates, duedatesLoading] = useCollectionDataOnce(
+    collection(firestore, "duedates"),
+    { idField: "term" }
+  )
+
+  const onEnrollClick = async (/** @type {{ id: string; name: String; length: string; }} */ course) => {
+    if (!duedates) return
+
+    const registrationDeadline = moment(duedates.find((d) => d.term === course.length).register.toDate())
+
+    if (moment(Date.now()).isAfter(registrationDeadline)) {
+      alert("You have passed the deadline to enroll!")
+      return
+    }
+
+    await addDoc(
+      collection(firestore, "enrollments"), 
+      {
+        studentUid: user.uid,
+        courseId: course.id,
+        courseLen: course.length,
+      }
+    )
+
+    alert(`Enrolled to ${course.name}!!`)
+  }
+  
   return (
     <Page title="Enroll courses" hasBack onBack={router.back}>
       <CourseList 
@@ -153,7 +170,8 @@ export default function CourseEnrollPage() {
         title="Fall" 
         enrolledCount={fallEnrolledCount}
         courses={fallCourse} 
-        loading={enrolledLoading || fallLoading} 
+        duedates={duedates?.find((d) => d.term === "fall")}
+        loading={duedatesLoading || enrolledLoading || fallLoading} 
         enrollments={enrolled}
         onEnroll={onEnrollClick}
       />
@@ -162,7 +180,8 @@ export default function CourseEnrollPage() {
         title="Winter" 
         enrolledCount={winterEnrolledCount}
         courses={winterCourse} 
-        loading={enrolledLoading || winterLoading} 
+        duedates={duedates?.find((d) => d.term === "fall")}
+        loading={duedatesLoading || enrolledLoading || winterLoading} 
         enrollments={enrolled}
         onEnroll={onEnrollClick}
       />
@@ -171,7 +190,8 @@ export default function CourseEnrollPage() {
         title="Spring" 
         enrolledCount={springEnrolledCount}
         courses={springCourse} 
-        loading={enrolledLoading || springLoading} 
+        duedates={duedates?.find((d) => d.term === "fall")}
+        loading={duedatesLoading || enrolledLoading || springLoading} 
         enrollments={enrolled}
         onEnroll={onEnrollClick}
       />
@@ -180,7 +200,8 @@ export default function CourseEnrollPage() {
         title="Summer" 
         enrolledCount={summerEnrolledCount}
         courses={summerCourse} 
-        loading={enrolledLoading || summerLoading} 
+        duedates={duedates?.find((d) => d.term === "fall")}
+        loading={duedatesLoading || enrolledLoading || summerLoading} 
         enrollments={enrolled}
         onEnroll={onEnrollClick}
       />
@@ -189,7 +210,8 @@ export default function CourseEnrollPage() {
         title="Year-long" 
         enrolledCount={yearEnrolledCount}
         courses={yearCourse} 
-        loading={enrolledLoading || yearLoading} 
+        duedates={duedates?.find((d) => d.term === "fall")}
+        loading={duedatesLoading || enrolledLoading || yearLoading} 
         enrollments={enrolled}
         onEnroll={onEnrollClick}
       />

@@ -3,7 +3,8 @@ import { getAuth, signOut } from "firebase/auth"
 import { useRouter } from "next/router"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { AppBar, Box, Button, Toolbar, Typography, List, ListSubheader, ListItemText, ListItemButton, ListItemIcon } from "@mui/material"
-import { PersonAdd } from "@mui/icons-material"
+import { CalendarToday, PersonAdd } from "@mui/icons-material"
+import ActionListEntry from "components/ActionListEntry"
 
 export default function Admin() {
   const auth = getAuth()
@@ -43,19 +44,27 @@ export default function Admin() {
             Accounts
           </ListSubheader>
 
-          <ListItemButton>
-            <ListItemIcon>
-              <PersonAdd />
-            </ListItemIcon>
-            <ListItemText onClick={() => goTo("/admin/create_student")}>Add Student Account</ListItemText>
-          </ListItemButton>
+          <ActionListEntry
+            icon={<PersonAdd />}
+            to={"/admin/create_student"}
+            text={"Add Student"}
+          />
 
-          <ListItemButton>
-            <ListItemIcon>
-              <PersonAdd />
-            </ListItemIcon>
-            <ListItemText onClick={() => goTo("/admin/create_instructor")}>Add Instructor Account</ListItemText>
-          </ListItemButton>
+          <ActionListEntry
+            icon={<PersonAdd />}
+            to={"/admin/create_instructor"}
+            text={"Add Instructor"}
+          />
+
+          <ListSubheader>
+            Terms &amp; Courses
+          </ListSubheader>
+
+          <ActionListEntry
+            icon={<CalendarToday />}
+            to={"/admin/update_termdates"}
+            text={"Update Term Due Dates"}
+          />
         </List>
       </Box>
     </Box>

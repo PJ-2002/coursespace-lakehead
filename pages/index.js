@@ -19,7 +19,6 @@ export default function Home() {
   }
 
   useEffect(() => {
-    console.log(error)
     if (error) alert(error.message)
   }, [error]);
 

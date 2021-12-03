@@ -5,21 +5,7 @@ import Page from "components/Page"
 import { Bookmark, BookmarkAdd } from "@mui/icons-material"
 import { useRouter } from "next/router"
 import { useAuthState } from "react-firebase-hooks/auth"
-
-const ListEntry = ({ icon, to, text }) => {
-  const router = useRouter()
-
-  return (
-    <ListItemButton>
-      <ListItemIcon>
-        { icon }
-      </ListItemIcon>
-      <ListItemText onClick={() => router.push(to)}>
-        { text }
-      </ListItemText>
-    </ListItemButton>
-  )
-}
+import ActionListEntry from "components/ActionListEntry"
 
 export default function InstructorPage() {
   const auth = getAuth()
@@ -44,14 +30,11 @@ export default function InstructorPage() {
           Courses
         </ListSubheader>
 
-        <ListItemButton>
-          <ListItemIcon>
-            <BookmarkAdd />
-          </ListItemIcon>
-          <ListItemText onClick={() => goTo("/instructor/course/create")}>
-            Create Course
-          </ListItemText>
-        </ListItemButton>
+        <ActionListEntry
+          icon={<BookmarkAdd />}
+          to={"/instructor/course/create"}
+          text={"Create Course"}
+        />
 
       </List>
     </Page>

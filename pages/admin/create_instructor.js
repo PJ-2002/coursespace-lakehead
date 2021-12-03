@@ -32,8 +32,6 @@ export default function CreateInstructor() {
   }
 
   const createUser = () => {
-    console.log(email)
-    console.log(password)
     axios.post("https://us-central1-coursespace-lakehead.cloudfunctions.net/createInstructor", {
       name,
       email,
