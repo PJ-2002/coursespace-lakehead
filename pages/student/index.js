@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { Button, Box, AppBar, Toolbar, Typography, List, ListSubheader, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material"
 import Page from "components/Page"
-import { BookmarkAdd } from "@mui/icons-material"
+import { BookmarkAdd, BookmarkRemove } from "@mui/icons-material"
 
 const ListEntry = ({ icon, to, text }) => {
   const router = useRouter()
@@ -24,19 +24,7 @@ const ListEntry = ({ icon, to, text }) => {
 export default function StudentPage() {
   const auth = getAuth()
 
-  const [user] = useAuthState(auth)
   const router = useRouter()
-  
-  const onLogoutClick = () => {
-    signOut(auth)
-    router.replace("/")
-  }
-
-  const goTo = (/** @type {string} */ path) => {
-    router.push(path)
-  }
-
-  console.log(user)
 
   return (
     <Page title="Student">
@@ -52,6 +40,7 @@ export default function StudentPage() {
         </ListSubheader>
         
         <ListEntry icon={<BookmarkAdd />} to="/student/course/enroll" text="Enroll on courses" />
+        <ListEntry icon={<BookmarkRemove />} to="/student/course/drop" text="Drop Courses" />
       </List>
     </Page>
   )
