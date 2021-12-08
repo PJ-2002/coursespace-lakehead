@@ -155,6 +155,8 @@ export default function CourseEnrollPage() {
       collection(firestore, "enrollments"), 
       {
         studentUid: user.uid,
+        studentName: user.displayName ?? user.email,
+        studentEmail: user.email,
         courseId: course.id,
         courseLen: course.length,
       }
