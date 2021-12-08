@@ -2,7 +2,7 @@
 import { getAuth } from "@firebase/auth"
 import { List, ListSubheader, ListItemIcon, ListItemButton, ListItemText } from "@mui/material"
 import Page from "components/Page"
-import { Bookmark, BookmarkAdd } from "@mui/icons-material"
+import { Bookmark, BookmarkAdd, PersonRemove } from "@mui/icons-material"
 import { useRouter } from "next/router"
 import { useAuthState } from "react-firebase-hooks/auth"
 import ActionListEntry from "components/ActionListEntry"
@@ -36,6 +36,17 @@ export default function InstructorPage() {
           text={"Create Course"}
         />
 
+        <ActionListEntry
+          icon={<Bookmark />}
+          to={"/instructor/course/my"}
+          text={"View My Courses"}
+        />
+
+        <ActionListEntry
+          icon={<PersonRemove />}
+          to={"/instructor/course/remove_student"}
+          text={"Remove Student from a Course"}
+        />
       </List>
     </Page>
   )
