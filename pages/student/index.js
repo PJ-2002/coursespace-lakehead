@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { Button, Box, AppBar, Toolbar, Typography, List, ListSubheader, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material"
 import Page from "components/Page"
-import { BookmarkAdd, BookmarkRemove, Contacts } from "@mui/icons-material"
+import { BookmarkAdd, BookmarkRemove, Contacts, Score } from "@mui/icons-material"
 
 const ListEntry = ({ icon, to, text }) => {
   const router = useRouter()
@@ -22,10 +22,6 @@ const ListEntry = ({ icon, to, text }) => {
 }
 
 export default function StudentPage() {
-  const auth = getAuth()
-
-  const router = useRouter()
-
   return (
     <Page title="Student">
       <List
@@ -42,6 +38,8 @@ export default function StudentPage() {
         <ListEntry icon={<BookmarkAdd />} to="/student/course/enroll" text="Enroll on courses" />
         <ListEntry icon={<BookmarkRemove />} to="/student/course/drop" text="Drop Courses" />
         <ListEntry icon={<Contacts />} to="/student/course/classlist" text="View Classlists" />
+        <ListEntry icon={<Score />} to="/student/course/view_marks" text="View Marks" />
+
       </List>
     </Page>
   )

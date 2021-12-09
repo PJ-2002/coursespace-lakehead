@@ -183,7 +183,7 @@ const CourseEnrollPage = () => {
         title="Winter" 
         enrolledCount={winterEnrolledCount}
         courses={winterCourse} 
-        duedates={duedates?.find((d) => d.term === "fall")}
+        duedates={duedates?.find((d) => d.term === "winter")}
         loading={duedatesLoading || enrolledLoading || winterLoading} 
         enrollments={enrolled}
         onEnroll={onEnrollClick}
@@ -193,7 +193,7 @@ const CourseEnrollPage = () => {
         title="Spring" 
         enrolledCount={springEnrolledCount}
         courses={springCourse} 
-        duedates={duedates?.find((d) => d.term === "fall")}
+        duedates={duedates?.find((d) => d.term === "spring")}
         loading={duedatesLoading || enrolledLoading || springLoading} 
         enrollments={enrolled}
         onEnroll={onEnrollClick}
@@ -203,7 +203,7 @@ const CourseEnrollPage = () => {
         title="Summer" 
         enrolledCount={summerEnrolledCount}
         courses={summerCourse} 
-        duedates={duedates?.find((d) => d.term === "fall")}
+        duedates={duedates?.find((d) => d.term === "summer")}
         loading={duedatesLoading || enrolledLoading || summerLoading} 
         enrollments={enrolled}
         onEnroll={onEnrollClick}
@@ -213,7 +213,7 @@ const CourseEnrollPage = () => {
         title="Year-long" 
         enrolledCount={yearEnrolledCount}
         courses={yearCourse} 
-        duedates={duedates?.find((d) => d.term === "fall")}
+        duedates={duedates?.find((d) => d.term === "year-long")}
         loading={duedatesLoading || enrolledLoading || yearLoading} 
         enrollments={enrolled}
         onEnroll={onEnrollClick}

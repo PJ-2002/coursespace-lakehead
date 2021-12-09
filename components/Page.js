@@ -53,7 +53,9 @@ export default function Page({
         </Toolbar>
       </AppBar>
       
-      <Box>
+      <Box sx={{
+        margin: "2rem"
+      }}>
         { children }
       </Box>
     </Box>

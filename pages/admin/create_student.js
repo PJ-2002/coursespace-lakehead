@@ -83,7 +83,7 @@ export default function CreateStudent() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
-        <Button onClick={() => createUser()}>Create Student User</Button>
+        <Button variant={"contained"} onClick={() => createUser()}>Create Student User</Button>
       </Box>
     </Box>
   )

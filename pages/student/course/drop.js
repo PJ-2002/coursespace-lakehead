@@ -8,7 +8,7 @@ import Page from "components/Page"
 import moment from "moment"
 import { useRouter } from "next/router"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { useCollection, useCollectionDataOnce, useDocumentDataOnce } from "react-firebase-hooks/firestore"
+import { useCollection, useCollectionData, useCollectionDataOnce, useDocumentDataOnce } from "react-firebase-hooks/firestore"
 
 
 
@@ -75,7 +75,7 @@ const DropCoursePage = () => {
   const router = useRouter()
   const [user] = useAuthState(auth)
 
-  const [enrolledCourses, enrolledCoursesLoading] = useCollectionDataOnce(
+  const [enrolledCourses, enrolledCoursesLoading] = useCollectionData(
     query(
       collection(firestore, "enrollments"),
       where("studentUid", "==", user.uid)

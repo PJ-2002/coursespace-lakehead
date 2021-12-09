@@ -1,13 +1,45 @@
 // @ts-check
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
+import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
 import Page from "components/Page"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { addDoc, collection, getFirestore } from "@firebase/firestore"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { getAuth } from "@firebase/auth"
+import { Add, Delete, Schema } from "@mui/icons-material"
+import dynamic from "next/dynamic"
 
-export default function CreateCourse() {
+const MarkingSchemeList = ({
+  markingScheme,
+  onSchemeUpdate,
+  onDeleteCriterion
+}) => (
+  markingScheme.map((scheme, index) => 
+    <Box key={index}>
+      <TextField
+        label={"Criterion Name"}
+        value={scheme.name}
+        onChange={(e) => onSchemeUpdate(index, { ...scheme, name: e.target.value })} />
+      <TextField
+        label={"Maximum Marks"}
+        type={"number"}
+        value={scheme.maxMark}
+        onChange={(e) => onSchemeUpdate(index, { ...scheme, maxMark: parseInt(e.target.value) })} />
+      <TextField
+        label={"Weightage (%)"}
+        sx={{ width: 100 }}
+        value={scheme.weightage}
+        type={"number"}
+        InputProps={{ inputProps: { max: 100, min: 0 } }}
+        onChange={(e) => onSchemeUpdate(index, { ...scheme, weightage: parseInt(e.target.value) })} />
+      <IconButton onClick={() => onDeleteCriterion(index)}>
+        <Delete />
+      </IconButton>
+    </Box>
+  )
+)
+
+const CreateCourse = () => {
   const firestore = getFirestore()
   const auth = getAuth() 
 
@@ -19,6 +51,7 @@ export default function CreateCourse() {
   const [courseCapacity, setCourseCapacity] = useState(0)
   const [dept, setDept] = useState("")
   const [courseLen, setCourseLen] = useState("fall")
+  const [markingScheme, setMarkingScheme] = useState([])
 
   const onCreateCourse = async () => {
     const course = {
@@ -28,7 +61,8 @@ export default function CreateCourse() {
       dept: dept,
       length: courseLen,
       instructorUid: user.uid,
-      instructorName: user.displayName ?? user.email
+      instructorName: user.displayName ?? user.email,
+      markingScheme: markingScheme
     }
 
     await addDoc(
@@ -37,6 +71,26 @@ export default function CreateCourse() {
     )
 
     alert("Course Created!")
+  }
+
+  const addMarkingScheme = () => {
+    setMarkingScheme([...markingScheme, {
+      name: "",
+      maxMark: 0,
+      weightage: 0,
+    }])
+  }
+
+  const onMarkingSchemeUpdate = (index, newScheme) => {
+    setMarkingScheme(
+      markingScheme.map((el, i) => index === i ? newScheme : el)
+    )
+  }
+
+  const onDeleteCriterion = (index) => {
+    setMarkingScheme(
+      markingScheme.filter((_, i) => index !== i)
+    )
   }
 
   return (
@@ -66,8 +120,26 @@ export default function CreateCourse() {
           </Select>
         </FormControl>
 
+        <Box>
+          <h3>Marking Scheme</h3>
+
+          <MarkingSchemeList
+            markingScheme={markingScheme}
+            onSchemeUpdate={onMarkingSchemeUpdate}
+            onDeleteCriterion={onDeleteCriterion}
+          />
+
+          <Button onClick={() => addMarkingScheme()} variant="contained" startIcon={<Add />}>
+            Add Marking Field
+          </Button>
+        </Box>
+
         <Button onClick={onCreateCourse}>Create Course</Button>
       </Box>
     </Page>
   )
 }
+
+export default dynamic(() => Promise.resolve(CreateCourse), {
+  ssr: false
+})
