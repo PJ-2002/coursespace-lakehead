@@ -1,5 +1,7 @@
 // @ts-check
 
+import dynamic from "next/dynamic"
+
 import { getAuth } from "@firebase/auth";
 import { collection, deleteDoc, doc, getFirestore, query, where } from "@firebase/firestore";
 import { Person } from "@mui/icons-material";
@@ -140,7 +142,7 @@ const ClasslistView = ({
   )
 }
 
-export default function RemoveStudentPage() {
+const RemoveStudentPage = () => {
   const firestore = getFirestore()
   const auth = getAuth()
 
@@ -186,3 +188,5 @@ export default function RemoveStudentPage() {
     </Page>
   )
 }
+
+export default dynamic(() => Promise.resolve(RemoveStudentPage), { ssr: false })

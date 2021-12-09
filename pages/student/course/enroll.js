@@ -1,5 +1,6 @@
 // @ts-check
 import { getAuth } from "@firebase/auth";
+import dynamic from "next/dynamic";
 import { addDoc, collection, doc, getFirestore, query, where } from "@firebase/firestore";
 import { Box, Button, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import Page from "components/Page";
@@ -108,7 +109,7 @@ const CourseList = ({
     );
 }
 
-export default function CourseEnrollPage() {
+const CourseEnrollPage = () => {
   const firestore = getFirestore()
   const auth = getAuth()
 
@@ -220,3 +221,5 @@ export default function CourseEnrollPage() {
     </Page>
   )
 }
+
+export default dynamic(() => Promise.resolve(CourseEnrollPage), { ssr: false })

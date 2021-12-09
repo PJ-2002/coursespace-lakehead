@@ -1,4 +1,5 @@
 //@ts-check
+import dynamic from "next/dynamic"
 import { useState } from "react"
 import { Button, List, ListItem, ListItemIcon, ListItemText, ListSubheader } from "@mui/material";
 import Page from "components/Page";
@@ -148,7 +149,7 @@ const ClasslistView = ({
   )
 }
 
-export default function StudentClassListPage() {
+const StudentClassListPage = () => {
   const firestore = getFirestore()
   const auth = getAuth()
 
@@ -186,3 +187,7 @@ export default function StudentClassListPage() {
     </Page>
   )
 }
+
+export default dynamic(() => Promise.resolve(StudentClassListPage), {
+  ssr: false 
+})

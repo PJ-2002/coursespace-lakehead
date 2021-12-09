@@ -1,5 +1,6 @@
 //@ts-check
 
+import dynamic from "next/dynamic"
 import { getAuth } from "@firebase/auth"
 import { collection, deleteDoc, doc, documentId, FieldPath, getDoc, getDocs, getFirestore, query, where } from "@firebase/firestore"
 import { Button, List, ListItem, ListItemText, ListSubheader } from "@mui/material"
@@ -67,7 +68,7 @@ const CourseList = ({
   )
 }
 
-export default function DropCoursePage() {
+const DropCoursePage = () => {
   const firestore = getFirestore()
   const auth = getAuth()
 
@@ -157,3 +158,5 @@ export default function DropCoursePage() {
     </Page>
   )
 }
+
+export default dynamic(() => Promise.resolve(DropCoursePage), { ssr: false })
