@@ -44,7 +44,7 @@ export default function CreateInstructor() {
       password
     }).then(() => {
       alert("User Created!")
-      router.push("/instructor")
+      router.push("/admin")
     })
     .catch((err) => alert(`Error occured: ${err}`))
   }
