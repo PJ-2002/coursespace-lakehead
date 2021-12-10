@@ -1,5 +1,6 @@
 // @ts-check
 import { AppBar, Toolbar, Typography, Box, Button, Paper, TextField } from "@mui/material"
+import Page from "components/Page"
 import { getAuth, getIdTokenResult } from "firebase/auth"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -31,14 +32,7 @@ export default function Home() {
   }
 
   return (
-    <Box>
-      <AppBar position={"sticky"}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Login
-          </Typography>
-        </Toolbar>
-      </AppBar>
+    <Page title="Login">
       <Box paddingTop={10}>
         <Paper variant={"outlined"} style={{ padding: 20, textAlign: "center" }}>
           <Typography variant="h3" paddingBottom={4}>
@@ -52,6 +46,6 @@ export default function Home() {
           <Button variant={"contained"} onClick={onLoginClick}>Login</Button>
         </Paper>
       </Box>
-    </Box>
+    </Page>
   )
 }

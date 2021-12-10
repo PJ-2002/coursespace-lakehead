@@ -1,5 +1,6 @@
 // @ts-check
 
+import Head from "next/head"
 import { getAuth, signOut } from "@firebase/auth"
 import { IconButton, AppBar, Box, Toolbar, Typography, Button } from "@mui/material"
 import { ArrowBack } from "@mui/icons-material"
@@ -30,6 +31,11 @@ export default function Page({
   }
 
   return (
+    <>
+    <Head>
+        <title>{title} - Coursespace</title>
+        <meta property="og:title" content={`${title} - Coursespace`} key="title" /> 
+    </Head>
     <Box>
       <AppBar position={"sticky"}>
         <Toolbar>
@@ -59,5 +65,6 @@ export default function Page({
         { children }
       </Box>
     </Box>
+    </>
   )
 }
