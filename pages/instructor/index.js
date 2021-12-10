@@ -3,20 +3,10 @@ import { getAuth } from "@firebase/auth"
 import { List, ListSubheader, ListItemIcon, ListItemButton, ListItemText } from "@mui/material"
 import Page from "components/Page"
 import { Bookmark, BookmarkAdd, PersonRemove, Score } from "@mui/icons-material"
-import { useRouter } from "next/router"
 import { useAuthState } from "react-firebase-hooks/auth"
 import ActionListEntry from "components/ActionListEntry"
 
 export default function InstructorPage() {
-  const auth = getAuth()
-
-  const [user] = useAuthState(auth)
-  const router = useRouter()
-
-  const goTo = (/** @type {string} */ path) => {
-    router.push(path)
-  }
-
   return (
     <Page title="Instructor">
       <List

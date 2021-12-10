@@ -7,6 +7,7 @@ import { useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 
 import axios from "axios"
+import Page from "components/Page"
 
 // function to create student account
 // from admin page
@@ -49,50 +50,29 @@ export default function CreateStudent() {
   }
 
   return (
-    <Box>
-      <AppBar position={"sticky"}>
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={() => router.back()}
-          >
-            <ArrowBack />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Admin - {user?.email}
-          </Typography>
-          <Button color="inherit" onClick={onLogoutClick}>Logout</Button>
-        </Toolbar>
-      </AppBar>
-
-      <Box>
-        <TextField 
-          label={"Student Name"} 
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <br />
-        <TextField 
-          label={"Student Email"} 
-          type={"email"} 
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <br />
-        <TextField 
-          label={"Student Initial Password"} 
-          type={"password"} 
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <br />
-        <Button variant={"contained"} onClick={() => createUser()}>Create Student User</Button>
-      </Box>
-    </Box>
+    <Page title="Create Student" hasBack onBack={router.back}>
+      <TextField 
+        label={"Student Name"} 
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <br />
+      <TextField 
+        label={"Student Email"} 
+        type={"email"} 
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <br />
+      <TextField 
+        label={"Student Initial Password"} 
+        type={"password"} 
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <br />
+      <Button variant={"contained"} onClick={() => createUser()}>Create Student User</Button>
+    </Page>
   )
 }

@@ -92,7 +92,9 @@ const DropCoursePage = () => {
 
   if (enrolledCoursesLoading) {
     return (
-      <h2>Loading...</h2>
+      <Page title="Drop Courses" hasBack onBack={router.back}>
+        <h2>Loading...</h2>
+      </Page>
     )
   }
 
