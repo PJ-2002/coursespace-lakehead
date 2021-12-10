@@ -6,7 +6,7 @@ import { useState } from "react"
 import { addDoc, collection, getFirestore } from "@firebase/firestore"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { getAuth } from "@firebase/auth"
-import { Add, Delete, Schema } from "@mui/icons-material"
+import { Add, Check, Delete, Schema } from "@mui/icons-material"
 import dynamic from "next/dynamic"
 
 const MarkingSchemeList = ({
@@ -23,6 +23,7 @@ const MarkingSchemeList = ({
       <TextField
         label={"Maximum Marks"}
         type={"number"}
+        InputProps={{ inputProps: { min: 0 }}}
         value={scheme.maxMark}
         onChange={(e) => onSchemeUpdate(index, { ...scheme, maxMark: parseInt(e.target.value) })} />
       <TextField
@@ -106,7 +107,13 @@ const CreateCourse = () => {
         <TextField label="Course Name" value={courseName} onChange={(e) => setCourseName(e.target.value)} />
         <TextField label="Course Code" value={courseCode} onChange={(e) => setCourseCode(e.target.value)} />
         <TextField label="Department" value={dept} onChange={(e) => setDept(e.target.value) } />
-        <TextField type={"number"} label="Course Capacity" value={courseCapacity} onChange={(e) => setCourseCapacity(parseInt(e.target.value))} />
+        <TextField 
+          type={"number"} 
+          InputProps={{ inputProps: { min: 0 }}}
+          label="Course Capacity" 
+          value={courseCapacity} 
+          onChange={(e) => setCourseCapacity(parseInt(e.target.value))} 
+        />
 
         <br />
         <br />
@@ -131,12 +138,15 @@ const CreateCourse = () => {
             onDeleteCriterion={onDeleteCriterion}
           />
 
-          <Button onClick={() => addMarkingScheme()} variant="contained" startIcon={<Add />}>
+          <Button onClick={() => addMarkingScheme()} startIcon={<Add />}>
             Add Marking Field
           </Button>
+          <br />
+          <br />
+          <br />
         </Box>
 
-        <Button onClick={onCreateCourse}>Create Course</Button>
+        <Button variant={"contained"} startIcon={<Check />} onClick={onCreateCourse}>Create Course</Button>
       </Box>
     </Page>
   )
