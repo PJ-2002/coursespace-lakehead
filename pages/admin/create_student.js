@@ -8,12 +8,15 @@ import { useAuthState } from "react-firebase-hooks/auth"
 
 import axios from "axios"
 
+// function to create student account
+// from admin page
 export default function CreateStudent() {
   const auth = getAuth()
 
   const [user] = useAuthState(auth)
   const router = useRouter()
 
+  // seting name, email, and password
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -26,11 +29,13 @@ export default function CreateStudent() {
     )
   }
 
+  // click logout to sign out from the page
   const onLogoutClick = () => {
     signOut(auth)
     router.replace("/")
   }
 
+  // function to create users
   const createUser = () => {
     axios.post("https://us-central1-coursespace-lakehead.cloudfunctions.net/createStudent", {
       name,

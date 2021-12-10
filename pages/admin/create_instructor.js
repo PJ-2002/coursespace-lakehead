@@ -8,12 +8,15 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import axios from "axios"
 import { ArrowBack } from "@mui/icons-material"
 
+// function to create instructor account
+// from admin page
 export default function CreateInstructor() {
   const auth = getAuth()
 
   const [user] = useAuthState(auth)
   const router = useRouter()
 
+  //set name, email, password
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -26,11 +29,13 @@ export default function CreateInstructor() {
     )
   }
 
+  // click logout to sign out from the page
   const onLogoutClick = () => {
     signOut(auth)
     router.replace("/")
   }
 
+  // function to create users
   const createUser = () => {
     axios.post("https://us-central1-coursespace-lakehead.cloudfunctions.net/createInstructor", {
       name,

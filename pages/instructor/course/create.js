@@ -39,6 +39,7 @@ const MarkingSchemeList = ({
   )
 )
 
+// create course
 const CreateCourse = () => {
   const firestore = getFirestore()
   const auth = getAuth() 
@@ -53,6 +54,7 @@ const CreateCourse = () => {
   const [courseLen, setCourseLen] = useState("fall")
   const [markingScheme, setMarkingScheme] = useState([])
 
+  // create course for all pages
   const onCreateCourse = async () => {
     const course = {
       name: courseName,

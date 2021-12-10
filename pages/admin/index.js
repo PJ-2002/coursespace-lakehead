@@ -6,12 +6,16 @@ import { AppBar, Box, Button, Toolbar, Typography, List, ListSubheader, ListItem
 import { CalendarToday, PersonAdd } from "@mui/icons-material"
 import ActionListEntry from "components/ActionListEntry"
 
+// admin index page
 export default function Admin() {
+  // get user authtication
   const auth = getAuth()
 
   const [user] = useAuthState(auth)
   const router = useRouter()
   
+  // function to log out of the page
+  // click logout button to log out from the page
   const onLogoutClick = () => {
     signOut(auth)
     router.replace("/")

@@ -37,6 +37,8 @@ const CourseListTermList = ({
     </>
   )
 }
+
+// Sql query to get couse list 
 const MyCourseList = ({
   firestore,
   user,

@@ -11,6 +11,7 @@ import { useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useCollectionDataOnce } from "react-firebase-hooks/firestore"
 
+// iterate through the course list to find the searching course
 const CourseSelectTermList = ({
   firestore,
   term,

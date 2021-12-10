@@ -10,6 +10,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import { Person } from "@mui/icons-material";
 
+// iterate through list of terms
 const CourseSelectTermList = ({
   firestore,
   term,

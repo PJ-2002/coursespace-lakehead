@@ -12,6 +12,8 @@ export default function MyCourses() {
 
   const [user] = useAuthState(auth)
   const router = useRouter()
+
+  // Sql query to search for a course
   const [myCourses, loading] = useCollectionDataOnce(
     query(
       collection(firestore, "courses"),

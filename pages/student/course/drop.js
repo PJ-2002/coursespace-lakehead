@@ -34,6 +34,8 @@ const CourseList = ({
     doc(firestore, "duedates", termId)
   )
 
+  // select course to drop
+  // based on the date to determine whether it can be dropped
   const onDropClick = (course) => {
     if (moment(Date.now()).isAfter(moment(duedates.drop.toDate()))) {
       alert("The drop deadline for the semester has passed!")
