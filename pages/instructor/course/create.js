@@ -74,6 +74,7 @@ const CreateCourse = () => {
     )
 
     alert("Course Created!")
+    router.push("/instructor")
   }
 
   const addMarkingScheme = () => {

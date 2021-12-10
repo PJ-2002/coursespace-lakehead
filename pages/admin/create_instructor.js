@@ -41,7 +41,10 @@ export default function CreateInstructor() {
       name,
       email,
       password
-    }).then(() => alert("User Created!"))
+    }).then(() => {
+      alert("User Created!")
+      router.push("/instructor")
+    })
     .catch((err) => alert(`Error occured: ${err}`))
   }
 

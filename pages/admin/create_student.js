@@ -41,7 +41,10 @@ export default function CreateStudent() {
       name,
       email,
       password
-    }).then(() => alert("User Created!"))
+    }).then(() => {
+      alert("User Created!")
+      router.push("/admin")
+    })
     .catch((err) => alert(`Error occured: ${err}`))
   }
 

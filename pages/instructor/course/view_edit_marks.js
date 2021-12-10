@@ -205,6 +205,7 @@ const ViewEditMarksPage = () => {
     )
 
     alert("Marking updated!")
+    setSelectedEnroll(null)
   }
 
   return (
