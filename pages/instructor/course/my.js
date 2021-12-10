@@ -5,6 +5,7 @@ import { collection, getFirestore, query, where } from "@firebase/firestore";
 import { useCollectionDataOnce } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "@firebase/auth";
+import { List, ListItem, ListItemText } from "@mui/material";
 
 export default function MyCourses() {
   const firestore = getFirestore()
@@ -26,11 +27,20 @@ export default function MyCourses() {
     <Page title="My Courses" hasBack onBack={router.back}>
       { loading
         ? <p>Loading...</p>
-        : myCourses.map((course) => 
-            <div key={course.id}>
-              {course.name}
-            </div>
-          )
+        : <>
+            <List subheader={<h4>Your Courses</h4>}>
+              {
+                myCourses.map((course) => 
+                    <ListItem key={course.id}>
+                      <ListItemText 
+                        primary={`[${course.code}] ${course.name}`}
+                        secondary={course.dept}
+                      />
+                    </ListItem>
+                  )
+              }
+            </List>
+          </>
       }
     </Page>
   )
